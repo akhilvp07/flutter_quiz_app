@@ -22,7 +22,6 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       _questionIndex++;
     });
-    print(_questionIndex);
   }
 
   @override
@@ -45,18 +44,22 @@ class _MyAppState extends State<MyApp> {
       appBar: AppBar(
         title: Text('My First App!'),
       ),
-      body: Column(
-        children: [
-          Question(
-            questions[_questionIndex]['questionText'],
-          ),
-          //Answers
-          ...(questions[_questionIndex]['answers'] as List<String>)
-              .map((answer) {
-            return Answer(_answerQuestion, answer);
-          }).toList()
-        ],
-      ),
+      body: _questionIndex < questions.length
+          ? Column(
+              children: [
+                Question(
+                  questions[_questionIndex]['questionText'],
+                ),
+                //Answers
+                ...(questions[_questionIndex]['answers'] as List<String>)
+                    .map((answer) {
+                  return Answer(_answerQuestion, answer);
+                }).toList()
+              ],
+            )
+          : Center(
+              child: Text('You did it!'),
+            ),
     );
     return MaterialApp(
       home: scaffold,
