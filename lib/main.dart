@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/quiz.dart';
+import 'package:flutter_complete_guide/result.dart';
 
-import './question.dart';
-import './answer.dart';
+import './quiz.dart';
 
 // void main() {
 //   runApp(MyApp());
@@ -17,6 +18,20 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final _questions = const [
+    {
+      'questionText': 'What\'s your favourite colour?',
+      'answers': ['Red', 'Green', 'Blue', 'Green'],
+    },
+    {
+      'questionText': 'What\'s your favourite animal?',
+      'answers': ['Lion', 'Tiger', 'Bear', 'Deer'],
+    },
+    {
+      'questionText': 'What\'s your favourite food?',
+      'answers': ['Rice', 'Noodles', 'Burger', 'Cake'],
+    },
+  ];
   var _questionIndex = 0;
   void _answerQuestion() {
     setState(() {
@@ -26,40 +41,17 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
-      {
-        'questionText': 'What\'s your favourite colour?',
-        'answers': ['Red', 'Green', 'Blue', 'Green'],
-      },
-      {
-        'questionText': 'What\'s your favourite animal?',
-        'answers': ['Lion', 'Tiger', 'Bear', 'Deer'],
-      },
-      {
-        'questionText': 'What\'s your favourite food?',
-        'answers': ['Rice', 'Noodles', 'Burger', 'Cake'],
-      },
-    ];
     var scaffold = Scaffold(
       appBar: AppBar(
         title: Text('My First App!'),
       ),
-      body: _questionIndex < questions.length
-          ? Column(
-              children: [
-                Question(
-                  questions[_questionIndex]['questionText'],
-                ),
-                //Answers
-                ...(questions[_questionIndex]['answers'] as List<String>)
-                    .map((answer) {
-                  return Answer(_answerQuestion, answer);
-                }).toList()
-              ],
+      body: _questionIndex < _questions.length
+          ? Quiz(
+              answerQuestion: _answerQuestion,
+              questionIndex: _questionIndex,
+              questions: _questions,
             )
-          : Center(
-              child: Text('You did it!'),
-            ),
+          : Result(),
     );
     return MaterialApp(
       home: scaffold,
